@@ -11,10 +11,10 @@ import time
 
 
 class IRCClient(Client):
-
-	def onMessage(self, socket, message):
-		# *** process incoming messages here ***
-		return True
+    def onMessage(self, socket, message):
+        # *** process incoming messages here ***
+        print(message)
+        return True
 
 
 # Parse the IP address and port you wish to connect to.
@@ -27,9 +27,9 @@ client = IRCClient()
 # Start server
 client.start(ip, port)
 
-#send message to the server
+# send message to the server
 message = "hello world"
 client.send(message.encode())
 
-#stops client
+# stops client
 client.stop()

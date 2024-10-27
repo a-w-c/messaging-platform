@@ -43,44 +43,39 @@ from utils import Server
 
 # Create an echo server class
 class EchoServer(Server):
+    def onStart(self):
+        print("Echo server has started")
 
-	def onStart(self):
-		print("Echo server has started")
-		
-	def onMessage(self, socket, message):
-		# This function takes two arguments: 'socket' and 'message'.
-		#     'socket' can be used to send a message string back over the wire.
-		#     'message' holds the incoming message string (minus the line-return).
-	
-		# convert the string to an upper case version
-		message = message.upper()
+    def onMessage(self, socket, message):
+        # This function takes two arguments: 'socket' and 'message'.
+        #     'socket' can be used to send a message string back over the wire.
+        #     'message' holds the incoming message string (minus the line-return).
 
-		# Just echo back what we received
-		message=message.encode()
-		socket.send(message)
-		
-		# Signify all is well
-		return True
-		  
+        # convert the string to an upper case version
+        message = message.upper()
 
+        # Just echo back what we received
+        message = message.encode()
+        socket.send(message)
 
+        # Signify all is well
+        return True
 
 
 # Create an ego server class
 class EgoServer(Server):
+    def onStart(self):
+        self.colour = "red"
+        print("Ego server has started")
 
-	def onStart(self):
-		self.colour = 'red'
-		print('Ego server has started')
+    def onMessage(self, socket, message):
+        # Egomaniacally deal with an incoming message.
 
-	def onMessage(self, socket, message):
-		# Egomaniacally deal with an incoming message.
+        # Ignore the message, and tell your adoring fan your favourite colour
+        socket.send(b"My favourite colour is " + self.colour.encode() + b"\n")
 
-		# Ignore the message, and tell your adoring fan your favourite colour
-		socket.send(b"My favourite colour is "+ self.colour.encode()+b"\n")
-		
-		# Disconnect!
-		return False
+        # Disconnect!
+        return False
 
 
 # Parse the IP address and port you wish to listen on.
@@ -92,8 +87,7 @@ server = EchoServer()
 
 # If you want to be an egomaniac, comment out the above command, and uncomment the
 # one below...
-#server = EgoServer()
+# server = EgoServer()
 
 # Start server
 server.start(ip, port)
-
